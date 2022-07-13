@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import Card from "./Card";
+import { useEffect } from "react";
+import api from "../utils/api";
+
 const CardContainer = ({
   tasks,
   edit,
@@ -8,21 +11,38 @@ const CardContainer = ({
   setBody,
   setEdit,
   setIdEdit,
+  setTasks,
 }) => {
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const res = await api.get("/tasks");
+        console.log(res.data);
+        setTasks(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchTasks();
+  }, []);
+
   return (
     <Wrapper>
-      {tasks.map((item) => {
+      {tasks.map((task) => {
         return (
           <Card
-            title={item.title}
-            body={item.body}
-            id={item.id}
+            id={task.id}
+            title={task.title}
+            body={task.body}
+            finished={task.finished}
+            key={task.id}
+            tasks={tasks}
             edit={edit}
-            key={item.id}
             setTitle={setTitle}
             setBody={setBody}
             setEdit={setEdit}
             setIdEdit={setIdEdit}
+            setTasks={setTasks}
           />
         );
       })}

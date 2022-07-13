@@ -1,19 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-
-const Card = ({ title, body, id, setTitle, setBody, setEdit, setIdEdit }) => {
-  const [isFinished, setIsFinished] = useState(false);
-
+import api from "../utils/api";
+const Card = ({
+  title,
+  body,
+  id,
+  finished,
+  setTitle,
+  setBody,
+  setEdit,
+  setIdEdit,
+  tasks,
+  setTasks,
+  edit,
+}) => {
   const onEdit = () => {
-    if (isFinished) return alert("You cannot edit finished tasks");
+    if (finished) return alert("You cannot edit finished tasks");
+    window.scrollTo(0, 0);
     setEdit(true);
     setTitle(title);
     setBody(body);
     setIdEdit(id);
   };
 
+  const handleFinish = async () => {
+    if (edit)
+      return alert("Please complete your editing before finishing a task");
+    try {
+      await api.put(`/tasks/${id}`, {
+        title: title,
+        body: body,
+        finished: !finished,
+      });
+      const updateTasks = tasks.map((task) => {
+        if (task.id === id) {
+          return { ...task, finished: !finished };
+        } else return task;
+      });
+      setTasks(updateTasks);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <Wrapper style={isFinished ? { backgroundColor: " #44bba4" } : null}>
+    <Wrapper style={finished ? { backgroundColor: " #44bba4" } : null}>
       <div className="card-title">
         <p>{title}</p>
       </div>
@@ -23,7 +54,7 @@ const Card = ({ title, body, id, setTitle, setBody, setEdit, setIdEdit }) => {
       <div className="icons">
         <button
           className="material-symbols-outlined icon done"
-          onClick={() => setIsFinished(!isFinished)}
+          onClick={handleFinish}
         >
           done
         </button>
@@ -58,9 +89,10 @@ const Wrapper = styled.div.attrs((props) => ({
   .card-title,
   .card-body {
     width: 70%;
-
     p {
       word-wrap: break-word;
+      text-align: justify;
+      text-justify: auto;
     }
   }
 

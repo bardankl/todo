@@ -1,38 +1,53 @@
 import React from "react";
 import styled from "styled-components";
+import api from "../utils/api";
 
 const Form = ({
   setTitle,
   setBody,
-  edit,
-  setEdit,
   setTasks,
-  idEdit,
-  tasks,
+  setEdit,
   title,
   body,
+  tasks,
+  edit,
+  idEdit,
 }) => {
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formValidation() === false) return;
-    const newTask = { title, body, id: Math.random() * 1000 };
-    setTasks([...tasks, newTask]);
-    setTitle("");
-    setBody("");
+    try {
+      const newTask = { id: tasks.length + 1, title, body, finished: false };
+      await api.post("/tasks", newTask);
+      setTasks([...tasks, newTask]);
+      setTitle("");
+      setBody("");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const handleEdit = (e) => {
+  const handleEdit = async (e) => {
     e.preventDefault();
     if (formValidation() === false) return;
-    const updateTasks = tasks.map((item) => {
-      if (item.id === idEdit) {
-        return { ...item, title: title, body: body };
-      } else return item;
-    });
-    setTasks(updateTasks);
-    setEdit(false);
-    setTitle("");
-    setBody("");
+    try {
+      await api.put(`/tasks/${idEdit}`, {
+        title: title,
+        body: body,
+        finished: false,
+      });
+      const updateTasks = tasks.map((task) => {
+        if (task.id === idEdit) {
+          return { ...task, title: title, body: body };
+        } else return task;
+      });
+      setTasks(updateTasks);
+      setEdit(false);
+      setTitle("");
+      setBody("");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const formValidation = () => {

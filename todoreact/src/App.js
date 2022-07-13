@@ -25,10 +25,12 @@ const App = () => {
       />
       <CardContainer
         tasks={tasks}
+        edit={edit}
         setTitle={setTitle}
         setBody={setBody}
         setEdit={setEdit}
         setIdEdit={setIdEdit}
+        setTasks={setTasks}
       />
     </Wrapper>
   );

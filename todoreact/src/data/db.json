@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "title": "Dishes",
+      "body": "make dishesfff",
+      "finished": false,
+      "id": 1
+    },
+    {
+      "title": "lorem ipsum",
+      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tristique consequat justo ac vestibulum. Sed fringilla tincidunt nulla",
+      "finished": true,
+      "id": 2
+    },
+    {
+      "title": "Nam placerat",
+      "body": "Donec id posuere felis. Curabitur feugiat gravida scelerisque. Aenean auctor mauris vitae ligula bibendum, id pretium risus dignissim.",
+      "finished": true,
+      "id": 3
+    }
+  ]
+}
