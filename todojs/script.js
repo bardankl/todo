@@ -3,8 +3,8 @@ const bodyInput = document.querySelector(".body-input");
 const submit = document.querySelector(".btn-add");
 const form = document.querySelector(".form");
 
-class Task {
-  constructor(id, title, body, finished, editing) {
+class Task {  // thank you for using class in this task :) it's so cuteee !!!! I realy like it :)
+  constructor(id, title, body, finished, editing) { // all this shoud be just todo object 
     this.id = id;
     this.title = title;
     this.body = body;
@@ -99,7 +99,7 @@ class Task {
 window.onload = function () {
   for (let i = 0; i < localStorage.length; i++) {
     const obj = localStorage.getItem(i);
-    const { id, title, body, finished } = JSON.parse(obj);
+    const { id, title, body, finished } = JSON.parse(obj);  // why did you use destructuring here ? and why u create sepateted variables for each todo field ? ) If there is any sens ? 
     new Task(id, title, body, finished).addTask();
   }
 };
