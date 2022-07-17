@@ -17,9 +17,9 @@ const Form = ({
     e.preventDefault();
     if (formValidation() === false) return;
     try {
-      const newTask = { id: tasks.length + 1, title, body, finished: false };
+      const newTask = { id: tasks.length + 1, title, body, finished: false }; // json web service generate ids, you don't need to do it on your own
       await api.post("/tasks", newTask);
-      setTasks([...tasks, newTask]);
+      setTasks([...tasks, newTask]); // you shoub apdate state with response from BE, not with item generated on front end...
       setTitle("");
       setBody("");
     } catch (err) {
